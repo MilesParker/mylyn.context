@@ -14,6 +14,7 @@ package org.eclipse.mylyn.team.ui;
 import java.util.Set;
 
 import org.eclipse.mylyn.context.core.AbstractContextListener;
+import org.eclipse.mylyn.context.core.ContextChangeEvent;
 import org.eclipse.mylyn.context.core.ContextCore;
 import org.eclipse.mylyn.internal.tasks.core.ITaskListChangeListener;
 import org.eclipse.mylyn.internal.tasks.core.TaskContainerDelta;
@@ -45,7 +46,8 @@ public abstract class AbstractContextChangeSetManager extends AbstractContextLis
 
 			if (ContextCore.getContextManager().isContextActive()) {
 				// TODO m4.0 remove call to deprecated method that is needed maintain backwards compatibility
-				contextActivated(ContextCore.getContextManager().getActiveContext());
+				contextChanged(ContextChangeEvent.createActivationEvent(ContextCore.getContextManager()
+						.getActiveContext()));
 			}
 			ContextCore.getContextManager().addListener(this);
 		}

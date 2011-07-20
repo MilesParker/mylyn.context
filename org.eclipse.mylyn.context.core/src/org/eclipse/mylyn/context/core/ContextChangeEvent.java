@@ -39,6 +39,10 @@ public class ContextChangeEvent {
 
 	private final boolean isExplicitManipulation;
 
+	/**
+	 * @deprecated Use factory methods instead
+	 */
+	@Deprecated
 	public ContextChangeEvent(ContextChangeKind eventKind, String contextHandle, IInteractionContext context,
 			List<IInteractionElement> elements) {
 		this(eventKind, contextHandle, context, elements, false);
@@ -46,7 +50,9 @@ public class ContextChangeEvent {
 
 	/**
 	 * @since 3.3
+	 * @deprecated Use factory methods instead
 	 */
+	@Deprecated
 	public ContextChangeEvent(ContextChangeKind eventKind, String contextHandle, IInteractionContext context,
 			List<IInteractionElement> elements, boolean isExplicitManipulation) {
 		Assert.isNotNull(eventKind);
@@ -118,5 +124,112 @@ public class ContextChangeEvent {
 	 */
 	public boolean isExplicitManipulation() {
 		return isExplicitManipulation;
+	}
+
+	/**
+	 * @since 3.7
+	 */
+	public static ContextChangeEvent createLandmarksAddedEvent(IInteractionElement element,
+			boolean isExplicitManipulation) {
+		//TODO can we assume that interaciton element context is always the right one?
+		return new ContextChangeEvent(ContextChangeKind.LANDMARKS_ADDED, element.getContext().getHandleIdentifier(),
+				element.getContext(), Collections.singletonList(element), isExplicitManipulation);
+	}
+
+	/**
+	 * @since 3.7
+	 */
+	public static ContextChangeEvent createLandmarksAddedEvent(List<IInteractionElement> elements,
+			boolean isExplicitManipulation) {
+		//TODO can we assume that interaciton element context is always the right one?
+		IInteractionContext context = elements.get(0).getContext();
+		return new ContextChangeEvent(ContextChangeKind.LANDMARKS_ADDED, context.getHandleIdentifier(), context,
+				elements, isExplicitManipulation);
+	}
+
+	/**
+	 * @since 3.7
+	 */
+	public static ContextChangeEvent createLandmarkRemovedEvent(IInteractionElement element,
+			boolean isExplicitManipulation) {
+		//TODO can we assume that interaciton element context is always the right one?
+		return new ContextChangeEvent(ContextChangeKind.LANDMARKS_REMOVED, element.getContext().getHandleIdentifier(),
+				element.getContext(), Collections.singletonList(element), isExplicitManipulation);
+	}
+
+	/**
+	 * @since 3.7
+	 */
+	public static ContextChangeEvent createLandmarksRemovedEvent(List<IInteractionElement> elements,
+			boolean isExplicitManipulation) {
+		//TODO can we assume that interaciton element context is always the right one?
+		IInteractionContext context = elements.get(0).getContext();
+		return new ContextChangeEvent(ContextChangeKind.LANDMARKS_REMOVED, context.getHandleIdentifier(), context,
+				elements, isExplicitManipulation);
+	}
+
+	/**
+	 * @since 3.7
+	 */
+	public static ContextChangeEvent createElementDeletedEvent(IInteractionElement element,
+			boolean isExplicitManipulation) {
+		return new ContextChangeEvent(ContextChangeKind.ELEMENTS_DELETED, element.getContext().getHandleIdentifier(),
+				element.getContext(), Collections.singletonList(element), isExplicitManipulation);
+	}
+
+	/**
+	 * @since 3.7
+	 */
+	public static ContextChangeEvent createElementsDeletedEvent(List<IInteractionElement> elements,
+			boolean isExplicitManipulation) {
+		//TODO can we assume that interaction element context is always the right one?
+		//TODO we don't handle degenerate case where empty elements is passed
+		IInteractionContext context = elements.get(0).getContext();
+		return new ContextChangeEvent(ContextChangeKind.ELEMENTS_DELETED, context.getHandleIdentifier(), context,
+				elements, isExplicitManipulation);
+	}
+
+	/**
+	 * @since 3.7
+	 */
+	public static ContextChangeEvent createActivationEvent(IInteractionContext context) {
+		return new ContextChangeEvent(ContextChangeKind.ACTIVATED, context.getHandleIdentifier(), context, null);
+	}
+
+	/**
+	 * @since 3.7
+	 */
+	public static ContextChangeEvent createPreactivationEvent(IInteractionContext context) {
+		return new ContextChangeEvent(ContextChangeKind.PRE_ACTIVATED, context.getHandleIdentifier(), context, null);
+	}
+
+	/**
+	 * @since 3.7
+	 */
+	public static ContextChangeEvent createPreactivationEvent(String handleIdentifier) {
+		return new ContextChangeEvent(ContextChangeKind.PRE_ACTIVATED, handleIdentifier, null, null);
+	}
+
+	/**
+	 * @since 3.7
+	 */
+	public static ContextChangeEvent createDeactivationEvent(IInteractionContext context) {
+		return new ContextChangeEvent(ContextChangeKind.DEACTIVATED, context.getHandleIdentifier(), context, null);
+	}
+
+	/**
+	 * @since 3.7
+	 */
+	public static ContextChangeEvent createClearedEvent(IInteractionContext context, String handle) {
+		return new ContextChangeEvent(ContextChangeKind.CLEARED, handle, context, null);
+	}
+
+	/**
+	 * @since 3.7
+	 */
+	public static ContextChangeEvent createInterestChangeEvent(IInteractionContext context,
+			List<IInteractionElement> elements) {
+		return new ContextChangeEvent(ContextChangeKind.INTEREST_CHANGED, context.getHandleIdentifier(), context,
+				elements);
 	}
 }

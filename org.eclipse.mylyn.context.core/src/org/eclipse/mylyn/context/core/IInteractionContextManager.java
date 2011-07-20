@@ -30,7 +30,7 @@ public interface IInteractionContextManager {
 
 	public abstract void addListener(AbstractContextListener listener);
 
-	public abstract void removeListener(AbstractContextListener listener);
+	public abstract void removeListener(IContextListener listener);
 
 	public abstract void activateContext(String handleIdentifier);
 

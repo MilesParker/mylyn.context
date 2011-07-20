@@ -16,8 +16,8 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.mylyn.commons.core.StatusHandler;
 import org.eclipse.mylyn.context.core.AbstractContextListener;
+import org.eclipse.mylyn.context.core.ContextChangeEvent.ContextChangeKind;
 import org.eclipse.mylyn.context.core.ContextCore;
-import org.eclipse.mylyn.context.core.IInteractionContext;
 import org.eclipse.mylyn.internal.context.ui.ContextUiPlugin;
 import org.eclipse.mylyn.internal.context.ui.IContextUiPreferenceContstants;
 import org.eclipse.ui.IViewPart;
@@ -36,20 +36,21 @@ public abstract class AbstractAutoFocusViewAction extends AbstractFocusViewActio
 
 	private final AbstractContextListener CONTEXT_LISTENER = new AbstractContextListener() {
 
-		@SuppressWarnings("deprecation")
 		@Override
-		public void contextActivated(IInteractionContext context) {
-			if (ContextUiPlugin.getDefault()
-					.getPreferenceStore()
-					.getBoolean(IContextUiPreferenceContstants.AUTO_FOCUS_NAVIGATORS)
-					&& context.getAllElements().size() > 0) {
-				AbstractAutoFocusViewAction.super.internalSuppressExpandAll = true;
-				AbstractAutoFocusViewAction.super.update(true);
-			} else {
-				AbstractAutoFocusViewAction.super.internalSuppressExpandAll = true;
-				AbstractAutoFocusViewAction.super.update(false);
+		public void contextChanged(org.eclipse.mylyn.context.core.ContextChangeEvent event) {
+			if (event.getEventKind() == ContextChangeKind.ACTIVATED) {
+				if (ContextUiPlugin.getDefault()
+						.getPreferenceStore()
+						.getBoolean(IContextUiPreferenceContstants.AUTO_FOCUS_NAVIGATORS)
+						&& event.getContext().getAllElements().size() > 0) {
+					AbstractAutoFocusViewAction.super.internalSuppressExpandAll = true;
+					AbstractAutoFocusViewAction.super.update(true);
+				} else {
+					AbstractAutoFocusViewAction.super.internalSuppressExpandAll = true;
+					AbstractAutoFocusViewAction.super.update(false);
+				}
 			}
-		}
+		};
 	};
 
 	public AbstractAutoFocusViewAction(InterestFilter interestFilter, boolean manageViewer, boolean manageFilters,
