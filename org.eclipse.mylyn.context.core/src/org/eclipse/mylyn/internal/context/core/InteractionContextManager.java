@@ -255,6 +255,10 @@ public class InteractionContextManager implements IInteractionContextManager {
 		}
 	}
 
+	public void addListener(IContextListener listener) {
+		addListener((AbstractContextListener) listener);
+	}
+
 	@Deprecated
 	protected void checkForLandmarkDeltaAndNotify(float previousInterest, final IInteractionElement node,
 			final IInteractionContext context) {
@@ -1404,9 +1408,13 @@ public class InteractionContextManager implements IInteractionContextManager {
 		globalContexts.remove(context);
 	}
 
-	public void removeListener(IContextListener listener) {
+	public void removeListener(AbstractContextListener listener) {
 		waitingContextListeners.remove(listener);
 		contextListeners.remove(listener);
+	}
+
+	public void removeListener(IContextListener listener) {
+		removeListener((AbstractContextListener) listener);
 	}
 
 	public void resetActivityMetaContext() {
@@ -1500,5 +1508,4 @@ public class InteractionContextManager implements IInteractionContextManager {
 			}
 		}
 	}
-
 }

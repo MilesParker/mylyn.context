@@ -11,6 +11,9 @@
 
 package org.eclipse.mylyn.context.core;
 
+/**
+ * @since 3.7
+ */
 public interface IContextListener {
 
 	/**
