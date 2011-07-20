@@ -125,11 +125,11 @@ public class InteractionContextManager implements IInteractionContextManager {
 
 	private InteractionContext activityMetaContext = null;
 
-	private final List<AbstractContextListener> activityMetaContextListeners = new CopyOnWriteArrayList<AbstractContextListener>();
+	private final List<IContextListener> activityMetaContextListeners = new CopyOnWriteArrayList<IContextListener>();
 
 	private boolean contextCapturePaused = false;
 
-	private final List<AbstractContextListener> contextListeners = new CopyOnWriteArrayList<AbstractContextListener>();
+	private final List<IContextListener> contextListeners = new CopyOnWriteArrayList<IContextListener>();
 
 	private final List<String> errorElementHandles = new ArrayList<String>();
 
@@ -143,7 +143,7 @@ public class InteractionContextManager implements IInteractionContextManager {
 
 	private boolean suppressListenerNotification = false;
 
-	private final List<AbstractContextListener> waitingContextListeners = new ArrayList<AbstractContextListener>();
+	private final List<IContextListener> waitingContextListeners = new ArrayList<IContextListener>();
 
 	private final LocalContextStore contextStore;
 
@@ -245,6 +245,10 @@ public class InteractionContextManager implements IInteractionContextManager {
 	}
 
 	public void addListener(AbstractContextListener listener) {
+		addListener((IContextListener) listener);
+	}
+
+	public void addListener(IContextListener listener) {
 		Assert.isNotNull(listener);
 		if (suppressListenerNotification && !waitingContextListeners.contains(listener)) {
 			waitingContextListeners.add(listener);
@@ -628,9 +632,9 @@ public class InteractionContextManager implements IInteractionContextManager {
 	}
 
 	/**
-	 * For testing.
+	 * For testing. Note API change at 3.7 but was not intended for API usage.
 	 */
-	public List<AbstractContextListener> getListeners() {
+	public List<IContextListener> getListeners() {
 		return Collections.unmodifiableList(contextListeners);
 	}
 
@@ -1404,6 +1408,10 @@ public class InteractionContextManager implements IInteractionContextManager {
 		globalContexts.remove(context);
 	}
 
+	public void removeListener(AbstractContextListener listener) {
+		removeListener((IContextListener) listener);
+	}
+
 	public void removeListener(IContextListener listener) {
 		waitingContextListeners.remove(listener);
 		contextListeners.remove(listener);
@@ -1500,5 +1508,4 @@ public class InteractionContextManager implements IInteractionContextManager {
 			}
 		}
 	}
-
 }

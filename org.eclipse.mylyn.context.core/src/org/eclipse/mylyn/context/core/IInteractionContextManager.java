@@ -28,9 +28,25 @@ public interface IInteractionContextManager {
 	 */
 	public abstract IInteractionElement getElement(String elementHandle);
 
+	/**
+	 * @since 3.7
+	 */
+	public abstract void addListener(IContextListener listener);
+
+	/**
+	 * @since 3.7
+	 */
+	public abstract void removeListener(IContextListener listener);
+
+	/**
+	 * For backward compatibility
+	 */
 	public abstract void addListener(AbstractContextListener listener);
 
-	public abstract void removeListener(IContextListener listener);
+	/**
+	 * For backward compatibility
+	 */
+	public abstract void removeListener(AbstractContextListener listener);
 
 	public abstract void activateContext(String handleIdentifier);
 
