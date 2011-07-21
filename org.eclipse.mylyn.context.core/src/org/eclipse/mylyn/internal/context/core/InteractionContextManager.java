@@ -500,6 +500,7 @@ public class InteractionContextManager implements IInteractionContextManager {
 				}
 
 				public void run() throws Exception {
+					//TODO Can context be null at this point? That's what I'm seeing in one of my tests. --mtp
 					listener.contextChanged(ContextChangeEvent.createClearedEvent(context, handleIdentifier));
 				}
 			});
