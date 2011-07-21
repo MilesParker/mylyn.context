@@ -15,7 +15,6 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.eclipse.mylyn.context.core.AbstractContextListener;
 import org.eclipse.mylyn.context.core.IContextListener;
 import org.eclipse.mylyn.context.tests.support.ContextTestUtil;
 import org.eclipse.mylyn.internal.context.core.ContextCorePlugin;
@@ -32,7 +31,7 @@ public class IdeStartupTest extends TestCase {
 	}
 
 	public void testChangeSetsStartup() {
-		List<AbstractContextListener> listeners = ContextCorePlugin.getContextManager().getListeners();
+		List<IContextListener> listeners = ContextCorePlugin.getContextManager().getListeners();
 		boolean containsManager = false;
 		for (IContextListener listener : listeners) {
 			if (listener instanceof ContextActiveChangeSetManager) {
