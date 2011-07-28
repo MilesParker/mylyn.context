@@ -185,8 +185,13 @@ public class ContextChangeEvent {
 		//TODO can we assume that interaction element context is always the right one?
 		//TODO we don't handle degenerate case where empty elements is passed
 		IInteractionContext context = elements.get(0).getContext();
-		return new ContextChangeEvent(ContextChangeKind.ELEMENTS_DELETED, context.getHandleIdentifier(), context,
-				elements, isExplicitManipulation);
+		if (context != null) {
+			return new ContextChangeEvent(ContextChangeKind.ELEMENTS_DELETED, context.getHandleIdentifier(), context,
+					elements, isExplicitManipulation);
+		} else {
+			return new ContextChangeEvent(ContextChangeKind.ELEMENTS_DELETED, null, null, elements,
+					isExplicitManipulation);
+		}
 	}
 
 	/**
